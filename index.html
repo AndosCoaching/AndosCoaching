@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andos.RL Coaching | Professioneller Rocket League Trainer</title>
+    <script 
+  src="https://www.paypal.com/sdk/js?client-id=BAA7Swa0rBm1g7cwur5EltSlTaH-lBEJGSZ09dE07QB2kh9Gk9U638jpJ7mIygSfT1FyP3KKFrSqDnGjYk&components=hosted-buttons&disable-funding=venmo&currency=EUR">
+</script>
+    <style>
+        /* PayPal Button Zentrierung */
+#paypal-container {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+
+#paypal-container > div {
+    width: 100%;
+    max-width: 300px;
+}
+/* Checkout Formular Verbesserungen */
+#booking-form {
+    margin-top: 1.5rem;
+}
+
+.form-group input:focus, 
+.form-group select:focus {
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 2px rgba(255, 158, 27, 0.3);
+}
+        .invalid {
+  border-color: #ff3860 !important;
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .hero h2 {
+    font-size: 1.2rem;
+  }
+  .package {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+        .hidden {
+    display: none !important;
+}
+        :root {
+            --primary: #2a75bb; /* Rocket League blau */
+            --secondary: #ff9e1b; /* Rocket League orange */
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(26, 26, 26, 0.9);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .logo span {
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--secondary);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        section {
+            min-height: 100vh;
+            padding: 6rem 2rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .hero {
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+        
+        .hero p {
+            max-width: 800px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .highlight {
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .packages {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+        
+        .package {
+            background-color: rgba(42, 117, 187, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 2rem;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .package:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            background-color: rgba(42, 117, 187, 0.2);
+        }
+        
+        .package h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .package .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .package ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .package li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .package li::before {
+            content: '✓';
+            color: var(--secondary);
+            position: absolute;
+            left: 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: scale(1.05);
+        }
+        
+        .about-container {
+            max-width: 1100px;
+            width: 100%;
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            background: rgba(42, 117, 187, 0.1);
+            border-radius: 15px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 158, 27, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .about-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            background: rgba(42, 117, 187, 0.15);
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h2 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+        }
+        
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+        
+        .about-image:hover {
+            transform: scale(1.03);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Checkout Section */
+        .checkout-container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(42, 117, 187, 0.1);
+            border-radius: 15px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 158, 27, 0.2);
+        }
+
+        .checkout-summary {
+            background: rgba(0,0,0,0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .checkout-summary h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .checkout-summary .price {
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background-color: #333;
+            color: white;
+        }
+
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background-color: var(--secondary);
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .packages {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Andos<span>.RL</span> Coaching</div>
+        <ul>
+            <li><a href="#home">Startseite</a></li>
+            <li><a href="#coaching">Coaching</a></li>
+            <li><a href="#about">Über mich</a></li>
+        </ul>
+    </nav>
+    
+    <section id="home" class="hero">
+        <h1>Hallo, ich bin Coach Andos</h1>
+        <h2>Professioneller Rocket League Trainer</h2>
+        <p><span class="highlight">2 Jahre</span> professionelle Coaching-Erfahrung | <span class="highlight">Top 1%</span> der Spieler in Europa</p>
+        <p>Ich coache Spieler <span class="highlight">WELTWEIT</span> und auf <span class="highlight">JEDER PLATTFORM</span></p>
+        <p>Coaching verfügbar auf <span class="highlight">Englisch</span> und <span class="highlight">Deutsch</span></p>
+        <a href="#coaching" class="btn">Coaching-Pakete ansehen</a>
+    </section>
+    
+    <section id="coaching">
+        <h2>Coaching-Pakete</h2>
+        <p>Ich coache Spieler WELTWEIT und auf JEDER PLATTFORM | Verfügbar auf Englisch und Deutsch</p>
+        
+        <div class="packages">
+            <div class="package">
+                <h3>30-Minuten-Session</h3>
+                <div class="price">€8</div>
+                <ul>
+                    <li>Spielanalyse</li>
+                    <li>Zusammen spielen</li>
+                    <li>Mechaniken im Freeplay üben</li>
+                    <li>Coaching in jedem Modus</li>
+                </ul>
+                <a href="#" class="btn book-btn" 
+   data-package="30-Minuten-Session" 
+   data-price="8"
+   data-button-id="7C2LJ49BJC732">Jetzt buchen</a>
+            </div>
+            
+            <div class="package">
+                <h3>1-Stunden-Session</h3>
+                <div class="price">€15</div>
+                <ul>
+                    <li>Spielanalyse</li>
+                    <li>Zusammen spielen</li>
+                    <li>Mechaniken im Freeplay üben</li>
+                    <li>Coaching in jedem Modus</li>
+                    <li>Mehr Zeit für intensives Training</li>
+                </ul>
+                <a href="#" class="btn book-btn" 
+   data-package="1-Stunden-Session" 
+   data-price="15"
+   data-button-id="PVD5953V5463W">Jetzt buchen</a>
+            </div>
+            
+            <div class="package">
+                <h3>1.5-Stunden-Session</h3>
+                <div class="price">€22</div>
+                <ul>
+                    <li>Spielanalyse</li>
+                    <li>Zusammen spielen</li>
+                    <li>Mechaniken im Freeplay üben</li>
+                    <li>Coaching in jedem Modus</li>
+                    <li>Umfassende Trainingseinheit</li>
+                    <li>Beste Preis-Leistung</li>
+                </ul>
+                <a href="#" class="btn book-btn" 
+   data-package="1.5-Stunden-Session" 
+   data-price="22"
+   data-button-id="A4BYM5LFUY2BA">Jetzt buchen</a>
+            </div>
+        </div>
+    </section>
+    
+    <section id="about">
+        <div class="about-container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Über mich</h2>
+                    <p>Hallo, ich bin Coach Andos, ein leidenschaftlicher Rocket League-Spieler, TikTok-Content-Creator und Trainer mit umfangreicher Erfahrung darin, Spielern zu helfen, ihre Fähigkeiten zu verbessern.</p>
+                    <p>Mit 2 Jahren professioneller Coaching-Erfahrung und einer Platzierung unter den Top 1% der Spieler in Europa verfüge ich über das Wissen und die Fähigkeiten, um Ihnen zu helfen, Ihre Rocket League-Ziele zu erreichen.</p>
+                    <p>Mein Coaching-Ansatz ist auf jeden Spieler individuell zugeschnitten und konzentriert sich darauf, Schwächen zu identifizieren und Strategien zu entwickeln, um sie in Stärken zu verwandeln. Ich coache auf Englisch und Deutsch.</p>
+                    <p>Egal, ob Sie gerade erst anfangen oder nach den höchsten Rängen streben - ich kann Ihnen helfen, Ihre Fortschritte zu beschleunigen und Ihre Rocket League-Ambitionen zu verwirklichen.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://i.ibb.co/RVGsqDN/Andos.jpg" alt="Coach Andos">
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Checkout Section (hidden by default) -->
+<section id="checkout" class="hidden">
+    <div class="checkout-container">
+        <h2>Buchung abschließen</h2>
+        
+        <div class="checkout-summary">
+            <h3>Bestellübersicht</h3>
+            <p id="summary-package">Paket: <span></span></p>
+            <p id="summary-price" class="price">Preis: €<span></span></p>
+        </div>
+        
+        <form id="booking-form">
+            <div class="form-group">
+                <label for="name">Vollständiger Name</label>
+                <input type="text" id="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">E-Mail</label>
+                <input type="email" id="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="discord">Discord Benutzername</label>
+                <input type="text" id="discord" required placeholder="benutzername#1234">
+            </div>
+            
+            <div class="form-group">
+                <label for="language">Bevorzugte Coaching-Sprache</label>
+                <select id="language" required>
+                    <option value="">Sprache auswählen</option>
+                    <option value="english">Englisch</option>
+                    <option value="german">Deutsch</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="availability">Bevorzugte Uhrzeit (UTC)</label>
+                <input type="text" id="availability" required placeholder="z.B. Wochentags ab 18:00">
+            </div>
+            
+            <!-- PayPal Button Container (hidden until form is valid) -->
+            <div id="paypal-container" class="hidden"></div>
+        </form>
+    </div>
+</section>
+    
+<script>
+    // Scroll animation
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+    
+    document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+    });
+    
+    // Smooth scrolling for navigation
+    document.querySelectorAll('nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            window.scrollTo({
+                top: targetElement.offsetTop,
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Booking system with PayPal integration
+   document.querySelectorAll('.book-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Paketdetails holen
+        const packageName = this.getAttribute('data-package');
+        const packagePrice = this.getAttribute('data-price');
+        const buttonId = this.getAttribute('data-button-id');
+        
+        // Checkout-Zusammenfassung aktualisieren
+        document.getElementById('summary-package').querySelector('span').textContent = packageName;
+        document.getElementById('summary-price').querySelector('span').textContent = packagePrice;
+        
+        // Vorherigen PayPal-Button löschen
+        document.getElementById('paypal-container').innerHTML = '';
+        
+        // Neuen PayPal-Button erstellen
+        paypal.HostedButtons({
+            hostedButtonId: buttonId,
+            onApprove: function(data, actions) {
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    discord: document.getElementById('discord').value,
+                    package: packageName,
+                    price: packagePrice,
+                    transactionId: data.orderID
+                };
+                
+                // Hier würdest du normalerweise die Daten an deinen Server senden
+                console.log('Buchungsdaten:', formData);
+                
+                // Zur Dankeseite weiterleiten
+                window.location.href = `danke.html?name=${encodeURIComponent(formData.name)}&package=${encodeURIComponent(packageName)}`;
+            },
+            onError: function(err) {
+                console.error('PayPal Fehler:', err);
+                alert('Bei der Zahlung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.');
+            }
+        }).render("#paypal-container");
+        
+        // Checkout-Sektion anzeigen
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('hidden');
+        });
+        document.getElementById('checkout').classList.remove('hidden');
+        document.getElementById('paypal-container').classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+});
+
+// Form submission handling
+document.getElementById('booking-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Formular validieren
+    if (!this.checkValidity()) {
+        this.reportValidity();
+        return;
+    }
+    
+    // Nur Bestätigung anzeigen, da Zahlung über PayPal läuft
+    alert('Bitte führen Sie jetzt die Zahlung über PayPal durch. Ihre Buchungsdaten wurden gespeichert.');
+});
+</script>
+</body>
+</html>
